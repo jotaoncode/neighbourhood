@@ -1,0 +1,17 @@
+{
+  "name": "",
+  "version": "0.0.1",
+  "description": "Fabrica de Canales",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "doxx": "~2.1.1",
+    "knockout": "~3.3.0"
+  },
+  "scripts": {
+    "generate-doc": "./node_modules/doxx/bin/doxx -s src/js -T docs"
+  }
+}
