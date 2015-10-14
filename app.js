@@ -48,10 +48,30 @@ var app = (function () {
   var FilterList = function (places) {
     var self = this;
     this.place = ko.observableArray(places);
-    this.currentSearch = ko.computed(function (textSearch) {
-      console.log('write current search', arguments);
-      return textSearch;
-    }, this);
+    this.searchText = ko.observable("");
+    this.filterMarkers = function (criteria) {
+      if (criteria === "") {
+        _.each(markers, function (marker) { marker.setVisible(true); });
+        _.each(this.place, function (place) {
+          $(place).show();
+        });
+        return;
+      }
+      var successList = _.filter(markers, function (marker) {
+        return marker.title.toLowerCase().indexOf(criteria.toLowerCase()) >= 0;
+      });
+
+      var failList = _.difference(markers, successList);
+      _.each(successList, function (marker) { marker.setVisible(true); });
+      _.each(failList, function (marker) { marker.setVisible(false); });
+    };
+    this.currentSearch = ko.computed({
+      read: function () {
+        this.filterMarkers(this.searchText());
+        return this.searchText();
+      },
+      owner: this
+    });
     this.setMarkerRenderedInMap = function (place) {
       this.place.push(place);
     };
@@ -71,7 +91,6 @@ var app = (function () {
       }));
     }
   }
-
   return {
     initMap: initMap
   };
