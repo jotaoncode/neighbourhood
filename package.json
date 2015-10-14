@@ -9,7 +9,8 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "doxx": "~2.1.1",
-    "knockout": "~3.3.0"
+    "knockout": "~3.3.0",
+    "selectize": "~0.12.1"
   },
   "scripts": {
     "generate-doc": "./node_modules/doxx/bin/doxx -s src/js -T docs"

@@ -4,14 +4,30 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <title>Juan José García</title>
-    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./node_modules/selectize/dist/css/selectize.css" type="text/css"/>
+    <link rel="stylesheet" href="styles.css" type="text/css"/>
   </head>
   <body>
-    <p>First name: <input data-bind="value: firstName" /> </p>
-    <p>Last name: <input data-bind="value: lastName" /> </p>
-    <h2>Hello, <span data-bind="text: fullName"></span>!</h2>
+    <div class="container">
+      <h3>Almagro, Juan José neighbourhood</h3>
+      <div class="row">
+        <div class="col-md-3">
+          <input data-bind="textInput: currentSearch">
+          <ul data-bind="foreach: place">
+            <li data-bind="text: title"></li>
+          </ul>
+        </div>
+        <div class="col-md-9">
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/knockout/build/output/knockout-latest.js"></script>
+    <script src="./node_modules/selectize/dist/js/standalone/selectize.min.js"></script>
     <script type="text/javascript" src="./app.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdXWrEfKdLKghV9QCIPwDBcep35LvlBZ8&callback=initMap"></script>
+    <script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdXWrEfKdLKghV9QCIPwDBcep35LvlBZ8&callback=app.initMap"></script>
   </body>
 </html>
