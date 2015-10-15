@@ -15,8 +15,8 @@
       <div class="row">
         <div class="col-md-3">
           <input data-bind="textInput: searchText">
-          <p data-bind="text: currentSearch"></p>
-          <ul data-bind="foreach: place">
+          <p>Current filter: <small data-bind="text: currentSearch"></small></p>
+          <ul data-bind="foreach: place" id="places">
             <li data-bind="text: title"></li>
           </ul>
         </div>
