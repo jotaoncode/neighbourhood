@@ -7,42 +7,48 @@ var app = (function () {
             lat: -34.6057242,
             lng: -58.415755399999966
           },
-          description: 'Home'
+          title: "Home",
+          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Home</h1><div id="bodyContent"><p>This is where I live</p></div>'
         },
         casaDelQueso: {
           pos: {
             lat: -34.603760,
             lng: -58.415243
           },
-          description: 'Casa del Queso'
+          title: "Casa del Queso",
+          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Casa del Queso</h1><div id="bodyContent"><p>This is where I live</p></div>'
         },
         tierraSanta: {
           pos: {
             lat: -34.609030,
             lng: -58.414730
           },
-          description: 'Tierra Santa'
+          title: "Tierra Santa",
+          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Tierra Santa</h1><div id="bodyContent"><p>This is where I live</p></div>'
         },
         pioIx: {
           pos: {
             lat: -34.614650,
             lng: -58.421704
           },
-          description: 'Pio IX'
+          title: "Pio IX",
+          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Pio IX</h1><div id="bodyContent"><p>This is where I live</p></div>'
         },
         utn: {
           pos: {
             lat: -34.598584,
             lng: -58.419998
           },
-          description: 'UTN'
+          title: "UTN",
+          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">UTN</h1><div id="bodyContent"><p>This is where I live</p></div>'
         },
         sanataBar: {
           pos: {
             lat: -34.605756,
             lng: -58.415116
           },
-          description: 'Sanata Bar'
+          title: "Sanata Bar",
+          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Sanata Bar</h1><div id="bodyContent"><p>This is where I live</p></div>'
         }
       },
       markersInstance: []
@@ -105,16 +111,38 @@ var app = (function () {
   };
 
   function initMap() {
+    function toggleBounce(marker) {
+      if(marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        window.setTimeout(function () {
+          marker.setAnimation(null);
+        }, 1500);
+      }
+    }
     map = new google.maps.Map(document.getElementById('map'), {
       center: listModel.markersDefinition.home.pos,
       zoom: 15
     });
     _.each(listModel.markersDefinition, function (marker) {
-      filterList.setMarkerRenderedInMap(new google.maps.Marker({
+      var infoWindowInstance,
+      markerInstance = new google.maps.Marker({
         map: map,
+        streetViewControl: true,
         position: marker.pos,
-        title: marker.description
-      }));
+        animation: google.maps.Animation.DROP,
+        title: marker.title
+      });
+      infoWindowInstance = new google.maps.InfoWindow({
+        content: marker.description
+      });
+      markerInstance.addListener('click', function () {
+        toggleBounce(markerInstance);
+        infoWindowInstance.open(map, markerInstance);
+        map.setCenter(marker.pos);
+      });
+      filterList.setMarkerRenderedInMap(markerInstance);
     });
   }
   var filterList = new FilterListViewModel(listModel.markersInstance);
