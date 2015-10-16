@@ -139,9 +139,19 @@ var app = (function () {
   };
 
   function initMap() {
+    var panorama;
     map = new google.maps.Map(document.getElementById('map'), {
+      streetViewControl: true,
       center: listModel.markersDefinition.home.pos,
       zoom: 15
+    });
+    panorama = map.getStreetView();
+    google.maps.event.addListener(panorama, 'visible_changed', function () {
+      if (panorama.getVisible()) {
+        $('.search-menu').hide();
+      } else {
+        $('.search-menu').show();
+      }
     });
     _.each(listModel.markersDefinition, function (marker) {
       var markerInstance = new google.maps.Marker({
