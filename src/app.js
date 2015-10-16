@@ -1,12 +1,10 @@
 /**
  * Knockout Application for my neighbourhood.
- * @api public
  */
 var app = (function () {
   var map,
     /***
      * This is the list of places
-     * @api public
      */
     listModel =  {
       markersDefinition : {
@@ -65,7 +63,6 @@ var app = (function () {
   /**
    * This is the List ViewModel
    * where I create things that works with List Model and The View
-   * @api public
    */
   var FilterListViewModel = function (places) {
     var self = this, titlesContainer = $('#places');
@@ -141,7 +138,6 @@ var app = (function () {
      * criteria and a list that fails this criteria, and setting visibility to
      * each one.
      * @param String criteria
-     * @api public
      */
     this.filterMarkers = function (criteria) {
       var titles = titlesContainer.find('li'),
