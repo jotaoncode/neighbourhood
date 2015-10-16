@@ -1,5 +1,27 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(./node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  word-wrap: normal;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
 #map {
-  height: 500px;
+  height: 100%;
+  width: 100%;
 }
 .search-options {
   margin: 0;
@@ -11,6 +33,24 @@
   padding: 2px;
   width: 100%;
   display: inline-block;
+}
+#places {
+  padding-bottom: 25px;
+}
+#places li {
+  width: 80px;
+  border-radius: 25%;
+}
+
+#places li:hover {
+  background-color: #283593 !important;
+  cursor: pointer;
+}
+
+.search-menu {
+  bottom: 45px;
+  left: 24px;
+  width: 80px;
 }
 .search-option:hover {
   background-color: #234767;
@@ -27,12 +67,31 @@
 .current-search {
   color: cyan;
 }
+.text-searching-container {
+  bottom: 44px !important;
+}
 .text-searching {
   color: black;
+  width: 76px;
 }
 .firstHeading {
   color: #801717;
 }
 #bodyContent {
   color: black;
+}
+.show-bookmarks {
+  position: absolute;
+  width: 4em;
+  height: 4em;
+  z-index: 1;
+  top: 15px;
+  right: 15px;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 0.5em;
+}
+.show-bookmarks .mdi-navigation-menu {
+  font-size: 2em;
+  vertical-align: middle;
 }
