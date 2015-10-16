@@ -40,6 +40,7 @@
 #places li {
   width: 80px;
   border-radius: 25%;
+  color: white;
 }
 
 #places li:hover {
@@ -75,6 +76,9 @@
   width: 76px;
 }
 .firstHeading {
+  font-size: 2em;
+  font-weight: 600;
+  margin: 0.5em 0 0.5em 0;
   color: #801717;
 }
 #bodyContent {
