@@ -133,6 +133,7 @@ var app = (function () {
         }
       });
     };
+
     /**
      * This will filter actual markers by finding a list that succes with
      * criteria and a list that fails this criteria, and setting visibility to
@@ -155,6 +156,17 @@ var app = (function () {
       this.setVisibilityToList(successList, true);
       this.setVisibilityToList(failList, false);
     };
+
+    /**
+     * This is a computed value that filters markers
+     */
+    this.currentSearch = ko.computed({
+      read: function () {
+        this.filterMarkers(this.searchText());
+        return this.searchText();
+      },
+      owner: this
+    });
 
     /**
      * Sets a marker in the array observable of ko.
