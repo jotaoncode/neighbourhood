@@ -1,3 +1,38 @@
 #map {
   height: 500px;
 }
+.search-options {
+  margin: 0;
+  padding: 0;
+}
+.search-option {
+  list-style: none;
+  margin: 0;
+  padding: 2px;
+  width: 100%;
+  display: inline-block;
+}
+.search-option:hover {
+  background-color: #234767;
+}
+.title-neighbourhood {
+  margin: 0;
+  padding: 10px;
+  text-align: center;
+}
+.search-content {
+  margin: 0;
+  padding: 10px;
+}
+.current-search {
+  color: cyan;
+}
+.text-searching {
+  color: black;
+}
+.firstHeading {
+  color: #801717;
+}
+#bodyContent {
+  color: black;
+}

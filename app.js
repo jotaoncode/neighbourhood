@@ -59,11 +59,29 @@ var app = (function () {
     this.place = ko.observableArray(places);
     this.searchText = ko.observable("");
 
+    this.searchByTitle = function (title) {
+      var marker = self.getMarkerMatchString(title);
+      _.each(listModel.markersInstance, function (marker) {
+        marker.infoWindow.close();
+      });
+      self.toggleBounce(marker);
+      marker.infoWindow.open(map, marker);
+      map.setCenter(marker.pos);
+    };
+    this.showInMap = function (listOption) {
+      self.searchByTitle(listOption.title);
+    };
+
     this.findTitleInList = function (marker) {
       var title = _.find(titlesContainer.find('li'), function (title) {
         return $(title).text() === marker.title;
       });
       return $(title);
+    };
+    this.getMarkerMatchString = function (stringValue) {
+      return _.find(listModel.markersInstance, function (marker) {
+        return marker.title.toLowerCase() === stringValue.toLowerCase();
+      });
     };
     this.getMarkersMatchCriteria = function (criteria) {
       return _.filter(listModel.markersInstance, function (marker) {
@@ -108,10 +126,7 @@ var app = (function () {
     this.setMarkerRenderedInMap = function (place) {
       this.place.push(place);
     };
-  };
-
-  function initMap() {
-    function toggleBounce(marker) {
+    this.toggleBounce = function (marker) {
       if(marker.getAnimation() !== null) {
         marker.setAnimation(null);
       } else {
@@ -120,27 +135,28 @@ var app = (function () {
           marker.setAnimation(null);
         }, 1500);
       }
-    }
+    };
+  };
+
+  function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
       center: listModel.markersDefinition.home.pos,
       zoom: 15
     });
     _.each(listModel.markersDefinition, function (marker) {
-      var infoWindowInstance,
-      markerInstance = new google.maps.Marker({
+      var markerInstance = new google.maps.Marker({
         map: map,
         streetViewControl: true,
         position: marker.pos,
         animation: google.maps.Animation.DROP,
         title: marker.title
       });
-      infoWindowInstance = new google.maps.InfoWindow({
+      markerInstance.infoWindow = new google.maps.InfoWindow({
         content: marker.description
       });
       markerInstance.addListener('click', function () {
-        toggleBounce(markerInstance);
-        infoWindowInstance.open(map, markerInstance);
-        map.setCenter(marker.pos);
+        filterList.toggleBounce(markerInstance);
+        markerInstance.infoWindow.open(map, markerInstance);
       });
       filterList.setMarkerRenderedInMap(markerInstance);
     });

@@ -11,13 +11,13 @@
   </head>
   <body>
     <div class="container">
-      <h3>Almagro, Juan José neighbourhood</h3>
-      <div class="row">
+      <h3 class="bg-primary title-neighbourhood">Almagro, Juan José neighbourhood</h3>
+      <div class="row search-content bg-primary">
         <div class="col-md-3">
-          <input data-bind="textInput: searchText">
-          <p>Current filter: <small data-bind="text: currentSearch"></small></p>
-          <ul data-bind="foreach: place" id="places">
-            <li data-bind="text: title"></li>
+          <input data-bind="textInput: searchText" class="text-searching">
+          <p class="current-search">Results for: <small data-bind="text: currentSearch"></small></p>
+          <ul data-bind="foreach: place" id="places" class="search-options">
+            <li data-bind="text: title, click: $parent.showInMap" class="search-option"></li>
           </ul>
         </div>
         <div class="col-md-9">
