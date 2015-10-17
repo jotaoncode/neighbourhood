@@ -139,7 +139,7 @@ var app = (function () {
       });
     };
     /**
-     * This will set visibility to list and in the markers.
+     * This will set visibility to a sub-list of markers.
      */
     this.setVisibilityToList = function (list, isVisible) {
       _.each(list, function (marker) {
