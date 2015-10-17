@@ -89,23 +89,21 @@ var app = (function () {
     this.searchText = ko.observable("");
 
     /**
-     * Search marker in map by title of place
+     * Show in map list option
+     * @param {} listOption
      */
-    this.searchByTitle = function (title) {
-      var marker = self.getMarkerMatchString(title);
+    this.showInMap = function (listOption) {
+      var title = listOption.title,
+        marker = self.getMarkerMatchString(title);
       _.each(listModel.markersInstance, function (marker) {
         marker.infoWindow.close();
       });
       self.toggleBounce(marker);
       marker.infoWindow.open(map, marker);
-      map.setCenter(marker.pos);
-    };
-    /**
-     * Show in map list option
-     * @param {} listOption
-     */
-    this.showInMap = function (listOption) {
-      self.searchByTitle(listOption.title);
+      map.setCenter({
+        lat: marker.position.lat(),
+        lng: marker.position.lng()
+      });
     };
 
     /**
@@ -144,6 +142,7 @@ var app = (function () {
     this.setVisibilityToList = function (list, isVisible) {
       _.each(list, function (marker) {
         marker.setVisible(isVisible);
+        marker.isVisible(isVisible);
       });
     };
 
@@ -242,9 +241,9 @@ var app = (function () {
       markerInstance.infoWindow = new google.maps.InfoWindow({
         content: template(marker.description)
       });
+      markerInstance.isVisible = ko.observable(markerInstance.visible);
       markerInstance.addListener('click', function () {
-        filterList.toggleBounce(markerInstance);
-        markerInstance.infoWindow.open(map, markerInstance);
+        filterList.showInMap(markerInstance);
       });
       filterList.setMarkerRenderedInMap(markerInstance);
     });
