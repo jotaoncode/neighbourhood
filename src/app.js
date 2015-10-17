@@ -157,6 +157,10 @@ var app = (function () {
           successList,
           failList;
 
+      _.each(listModel.markersInstance, function (marker) {
+        marker.infoWindow.close();
+      });
+
       if (criteria === "") {
         this.setVisibilityToList(listModel.markersInstance, true);
         return;
