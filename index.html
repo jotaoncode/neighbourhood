@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="css/styles.css" type="text/css"/>
   </head>
   <body>
-    <div class="fixed-action-btn search-menu">
+    <div class="fixed-action-btn search-menu" data-bind="visible: isVisibleList">
       <a class="btn-floating btn-large indigo">
         <i class="material-icons">bookmark</i>
       </a>
-      <ul data-bind="foreach: place" id="places">
+      <ul data-bind="foreach: places" id="places">
         <li data-bind="text: title, click: $parent.showInMap" class="indigo"></li>
       </ul>
       <ul class="text-searching-container">
@@ -26,7 +26,18 @@
     <script src="./src/underscore-min.js"></script>
     <script src="./src/materialize.js"></script>
     <script src="./src/knockout-latest.js"></script>
+    <script src="./src/handlebars.min.js"></script>
     <script type="text/javascript" src="./src/app.js"></script>
     <script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdXWrEfKdLKghV9QCIPwDBcep35LvlBZ8&callback=app.initMap"></script>
+    <script id="info-window-template" type="text/x-handlebars-template">
+      <div id="content">
+        <div id="siteNotice">
+        </div>
+      </div>
+      <h1 id="firstHeading" class="firstHeading">{{head}}</h1>
+      <div id="bodyContent">
+        <p>{{body}}</p>
+      </div>
+    </script>
   </body>
 </html>

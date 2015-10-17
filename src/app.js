@@ -14,7 +14,10 @@ var app = (function () {
             lng: -58.415755399999966
           },
           title: "Home",
-          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Home</h1><div id="bodyContent"><p>This is where I lived for 23 years</p></div>'
+          description: {
+            head: 'Home',
+            body: 'This is where I lived for 23 years'
+          }
         },
         casaDelQueso: {
           pos: {
@@ -22,7 +25,10 @@ var app = (function () {
             lng: -58.415243
           },
           title: "Casa del Queso",
-          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Casa del Queso</h1><div id="bodyContent"><p>You will find a very nice beer, piano music cheese and some south food of Argentina here.</p></div>'
+          description: {
+            head: 'Casa del Queso',
+            body: 'You will find a very nice beer, piano music cheese and some south food of Argentina here.'
+          }
         },
         tierraSanta: {
           pos: {
@@ -30,7 +36,10 @@ var app = (function () {
             lng: -58.414730
           },
           title: "Tierra Santa",
-          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Tierra Santa</h1><div id="bodyContent"><p>Here I made my Primary School.</p></div>'
+          description: {
+            head: 'Tierra Santa',
+            body: 'Here I made my Primary School.'
+          }
         },
         pioIx: {
           pos: {
@@ -38,7 +47,10 @@ var app = (function () {
             lng: -58.421704
           },
           title: "Pio IX",
-          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Pio IX</h1><div id="bodyContent"><p>This is where I did Secondary School.</p></div>'
+          description: {
+            head: 'Pio IX',
+            body: 'This is where I did Secondary School.'
+          }
         },
         utn: {
           pos: {
@@ -46,7 +58,10 @@ var app = (function () {
             lng: -58.419998
           },
           title: "UTN",
-          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">UTN</h1><div id="bodyContent"><p>This is the place where I did University, and finished as System Information Engineer.</p></div>'
+          description: {
+            head: 'UTN',
+            body: 'This is the place where I did University, and finished as System Information Engineer.'
+          }
         },
         sanataBar: {
           pos: {
@@ -54,7 +69,10 @@ var app = (function () {
             lng: -58.415116
           },
           title: "Sanata Bar",
-          description: '<div id="content"><div id="siteNotice"></div></div><h1 id="firstHeading" class="firstHeading">Tango Bar</h1><div id="bodyContent"><p>Here is some tango music bar, where have a good dinner and listen music.</p></div>'
+          description: {
+            head: 'Sanata Bar',
+            body: 'Here is some tango music bar, where have a good dinner and listen music.'
+          }
         }
       },
       markersInstance: []
@@ -65,8 +83,9 @@ var app = (function () {
    * where I create things that works with List Model and The View
    */
   var FilterListViewModel = function (places) {
-    var self = this, titlesContainer = $('#places');
-    this.place = ko.observableArray(places);
+    var self = this;
+    this.places = ko.observableArray(places);
+    this.isVisibleList = ko.observable(true);
     this.searchText = ko.observable("");
 
     /**
@@ -95,10 +114,9 @@ var app = (function () {
      * @param {} marker
      */
     this.findTitleInList = function (marker) {
-      var title = _.find(titlesContainer.find('li'), function (title) {
-        return $(title).text() === marker.title;
+      return _.find(this.places(), function (place) {
+        return place.title === marker.title;
       });
-      return $(title);
     };
     /**
      * Get Marker Match an string value,
@@ -123,14 +141,9 @@ var app = (function () {
     /**
      * This will set visibility to list and in the markers.
      */
-    this.setVisibilityToList = function (list, bolean) {
+    this.setVisibilityToList = function (list, isVisible) {
       _.each(list, function (marker) {
-        marker.setVisible(bolean);
-        if (bolean) {
-          self.findTitleInList(marker).show();
-        } else {
-          self.findTitleInList(marker).hide();
-        }
+        marker.setVisible(isVisible);
       });
     };
 
@@ -141,7 +154,7 @@ var app = (function () {
      * @param String criteria
      */
     this.filterMarkers = function (criteria) {
-      var titles = titlesContainer.find('li'),
+      var titles = this.places(),
           successList,
           failList;
 
@@ -169,12 +182,19 @@ var app = (function () {
     });
 
     /**
+     * Menu will be visible only on map view
+     * @param bool isVisible
+     */
+    this.isMenuVisible = function (isVisible) {
+      this.isVisibleList(isVisible);
+    };
+    /**
      * Sets a marker in the array observable of ko.
      * This place is the one from my list model.
      * @param {} place
      */
     this.setMarkerRenderedInMap = function (place) {
-      this.place.push(place);
+      this.places.push(place);
     };
     /**
      * Animation marker for bounce on selection
@@ -197,7 +217,10 @@ var app = (function () {
    * and creates all the markers in list model.
    */
   function initMap() {
-    var panorama;
+    var panorama,
+    infoWindowTemplate = $('#info-window-template').html(),
+    template = Handlebars.compile(infoWindowTemplate);
+
     map = new google.maps.Map(document.getElementById('map'), {
       streetViewControl: true,
       center: listModel.markersDefinition.home.pos,
@@ -205,11 +228,7 @@ var app = (function () {
     });
     panorama = map.getStreetView();
     google.maps.event.addListener(panorama, 'visible_changed', function () {
-      if (panorama.getVisible()) {
-        $('.search-menu').hide();
-      } else {
-        $('.search-menu').show();
-      }
+      filterList.isMenuVisible(!panorama.getVisible());
     });
     _.each(listModel.markersDefinition, function (marker) {
       var markerInstance = new google.maps.Marker({
@@ -219,8 +238,9 @@ var app = (function () {
         animation: google.maps.Animation.DROP,
         title: marker.title
       });
+
       markerInstance.infoWindow = new google.maps.InfoWindow({
-        content: marker.description
+        content: template(marker.description)
       });
       markerInstance.addListener('click', function () {
         filterList.toggleBounce(markerInstance);
@@ -236,10 +256,3 @@ var app = (function () {
   };
 }());
 
-$(function () {
-  $(".button-collapse").sideNav({
-    menuWidth: 200,
-    edge: 'left',
-    closeOnClick: true
-  });
-});
