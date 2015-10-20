@@ -17,7 +17,8 @@
     "express": "~4.13.3",
     "handlebars": "~4.0.3",
     "grant": "~3.5.1",
-    "express-session": "~1.11.3"
+    "express-session": "~1.11.3",
+    "grant-express": "~3.5.1"
   },
   "scripts": {
     "generate-doc": "./node_modules/doxx/bin/doxx -s src -T docs"

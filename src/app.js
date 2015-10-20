@@ -259,3 +259,20 @@ var app = (function () {
   };
 }());
 
+function authenticate() {
+  $.ajax({
+    url: 'http://localhost:3000/foursquare/tip',
+    type: 'GET'
+  }).then(function () {
+    console.log('finished: ', arguments);
+  });
+}
+
+function jsonpSample() {
+  $.getJSON("https://api.foursquare.com/v2/venues/search?ll=40.7,-74&client_secret=H1XFXV3BQZHGCEVAGERYG0VPOVYOSM4JHOZBUTTZZNYLUVHM&client_id=ODEENXKRFLRJ0T0X3XXFIIXD2G0CIDDF00GDQCEEB3BE52UE&v=20151019", {
+    format: "json"
+  },
+  function () {
+    console.log(arguments);
+  });
+}
