@@ -268,11 +268,28 @@ function authenticate() {
   });
 }
 
-function jsonpSample() {
+function venuesFoursquare() {
   $.getJSON("https://api.foursquare.com/v2/venues/search?ll=40.7,-74&client_secret=H1XFXV3BQZHGCEVAGERYG0VPOVYOSM4JHOZBUTTZZNYLUVHM&client_id=ODEENXKRFLRJ0T0X3XXFIIXD2G0CIDDF00GDQCEEB3BE52UE&v=20151019", {
     format: "json"
   },
   function () {
     console.log(arguments);
   });
+}
+function tipsFoursquare() {
+  $.getJSON("https://api.foursquare.com/v2/venues/430d0a00f964a5203e271fe3/tips?client_secret=H1XFXV3BQZHGCEVAGERYG0VPOVYOSM4JHOZBUTTZZNYLUVHM&client_id=ODEENXKRFLRJ0T0X3XXFIIXD2G0CIDDF00GDQCEEB3BE52UE&v=20151019", {
+    format: "json"
+  },
+  function () {
+    console.log(arguments);
+  });
+}
+function singleTipFoursquare() {
+  $.getJSON("https://api.foursquare.com/v2/tips/4eaf024f9a521bacdb216401?client_secret=H1XFXV3BQZHGCEVAGERYG0VPOVYOSM4JHOZBUTTZZNYLUVHM&client_id=ODEENXKRFLRJ0T0X3XXFIIXD2G0CIDDF00GDQCEEB3BE52UE&v=20151019", {
+    format: "json"
+  },
+  function () {
+    console.log(arguments);
+  });
+
 }
