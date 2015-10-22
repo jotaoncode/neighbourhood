@@ -4,6 +4,8 @@
 
 var express = require('express'),
   http = require('http'),
+  bodyParser = require('body-parser'),
+  https = require('https'),
   path = require('path'),
   routing = require('./routing'),
   session = require('express-session'),
@@ -35,6 +37,10 @@ grant = new Grant({
 app.set('port', process.env.PORT || 3000);
 app.use(express.static(resources));
 app.use(session({secret: 'grant'}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(grant);
 
 app.use(function (req, res, next) {
@@ -52,16 +58,75 @@ app.get('/', function (req, res) {
   routing(req, res, pathPage);
 });
 
-app.get('/foursquare/tip', function (req, res) {
-  var state = (Math.floor(Math.random() * 999999) + 1);
-  res.redirect('/connect/foursquare?state=' + state);
+var foursquare =  {
+  url: 'https://api.foursquare.com/',
+  id: 'ODEENXKRFLRJ0T0X3XXFIIXD2G0CIDDF00GDQCEEB3BE52UE',
+  secret: 'H1XFXV3BQZHGCEVAGERYG0VPOVYOSM4JHOZBUTTZZNYLUVHM',
+  v: '20151019',
+};
+var credentials = 'client_secret=' + foursquare.secret + '&client_id=' + foursquare.id + '&v=' + foursquare.v;
+
+/**
+ * Foursquare venues
+ */
+app.get('/foursquare/venues', function (req, res) {
+  var route;
+  route = foursquare.url + '/v2/venues/search?' + req.query.positions + '&' + credentials;
+  var request = https.get(route, function (response) {
+    response.setEncoding('utf8');
+    response.on('data', function (d) {
+      res.write(d);
+      res.end();
+    });
+  });
+  request.on('error', function (e) {
+    res.write(e);
+    res.end();
+    console.log(e);
+  });
+  request.end();
 });
 /**
- * Private Routes
+ * Foursquare tip for venue
  */
-app.get('/foursquare/callback', function (req, res) {
-  console.log('This is the response from foursquare :', arguments);
+app.get('/foursquare/tips', function (req, res) {
+  var route;
+  route = foursquare.url + '/v2/venues/' + req.query.venue_id + '/tips?' + credentials;
+  var request = https.get(route, function (response) {
+    response.setEncoding('utf8');
+    response.on('data', function (d) {
+      res.write(d);
+      res.end();
+    });
+  });
+  request.on('error', function (e) {
+    res.write(e);
+    res.end();
+    console.log(e);
+  });
+  request.end();
 });
+/**
+ * Foursquare tips
+ */
+app.get('/foursquare/tip', function (req, res) {
+  var route;
+  route = foursquare.url + '/v2/tips/' + req.query.tip_id + '?' + credentials;
+  var request = https.get(route, function (response) {
+    response.setEncoding('utf8');
+    response.on('data', function (d) {
+      res.write(d);
+      res.end();
+    });
+  });
+  request.on('error', function (e) {
+    res.write(e);
+    res.end();
+    console.log(e);
+  });
+  request.end();
+});
+
 /**
  * Start Server
  */
