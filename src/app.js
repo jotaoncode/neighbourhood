@@ -247,6 +247,9 @@ var app = (function () {
         markerInstance.infoWindow = new google.maps.InfoWindow({
           content: template(marker.description || results.response)
         });
+      }).catch(function (e) {
+        window.alert('An unespected error happened, please try again later');
+        console.error(e);
       });
       markerInstance.isVisible = ko.observable(markerInstance.visible);
       markerInstance.addListener('click', function () {
