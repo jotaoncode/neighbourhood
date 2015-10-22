@@ -41,6 +41,7 @@
   width: 80px;
   border-radius: 25%;
   color: white;
+  font-size: 0.8em;
 }
 
 #places li:hover {

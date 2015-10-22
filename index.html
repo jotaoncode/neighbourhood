@@ -38,6 +38,10 @@
       <h1 id="firstHeading" class="firstHeading">{{head}}</h1>
       <div id="bodyContent">
         <p>{{body}}</p>
+        {{#if hasWeb}}
+          <a href="{{url}}" target="_blank">web</a>
+        {{/if}}
+        <p><strong>Address: </strong>{{location}}</p>
       </div>
     </script>
   </body>

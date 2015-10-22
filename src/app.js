@@ -16,7 +16,11 @@ var app = (function () {
           title: "Home",
           description: {
             head: 'Home',
-            body: 'This is where I lived for 23 years'
+            body: 'This is where I lived for 23 years',
+            hasWeb: false,
+            foursquare: '',
+            url: '',
+            location: 'Sarmiento st. 3584, Buenos Aires Argentina'
           }
         },
         casaDelQueso: {
@@ -24,21 +28,29 @@ var app = (function () {
             lat: -34.603760,
             lng: -58.415243
           },
-          title: "Casa del Queso",
+          title: "La Casa del Queso",
           description: {
-            head: 'Casa del Queso',
-            body: 'You will find a very nice beer, piano music cheese and some south food of Argentina here.'
+            head: 'La Casa del Queso',
+            hasWeb: false,
+            body: 'You will find a very nice beer, piano music cheese and some south food of Argentina here.',
+            foursquare: '',
+            url: '',
+            location: ''
           }
         },
         tierraSanta: {
           pos: {
-            lat: -34.609030,
-            lng: -58.414730
+            lat: -34.60911299139945,
+            lng: -58.4146802308679
           },
           title: "Tierra Santa",
           description: {
-            head: 'Tierra Santa',
-            body: 'Here I made my Primary School.'
+            head: 'Colegio Tierra Santa',
+            hasWeb: false,
+            body: 'Here I made my Primary School.',
+            foursquare: '',
+            url: '',
+            location: ''
           }
         },
         pioIx: {
@@ -46,10 +58,14 @@ var app = (function () {
             lat: -34.614650,
             lng: -58.421704
           },
-          title: "Pio IX",
+          title: "Casa Pío IX",
           description: {
-            head: 'Pio IX',
-            body: 'This is where I did Secondary School.'
+            head: 'Casa Pío IX',
+            hasWeb: false,
+            body: 'This is where I did Secondary School.',
+            foursquare: '',
+            url: '',
+            location: ''
           }
         },
         utn: {
@@ -59,19 +75,27 @@ var app = (function () {
           },
           title: "UTN",
           description: {
-            head: 'UTN',
-            body: 'This is the place where I did University, and finished as System Information Engineer.'
+            head: 'UTN FRBA (Sede Medrano)',
+            hasWeb: false,
+            body: 'This is the place where I did University, and finished as System Information Engineer.',
+            foursquare: '',
+            url: '',
+            location: ''
           }
         },
         sanataBar: {
           pos: {
-            lat: -34.605756,
-            lng: -58.415116
+            lat: -34.605796337126684,
+            lng: -58.41514348983595
           },
           title: "Sanata Bar",
           description: {
             head: 'Sanata Bar',
-            body: 'Here is some tango music bar, where have a good dinner and listen music.'
+            hasWeb: false,
+            body: 'Here is some tango music bar, where have a good dinner and listen music.',
+            foursquare: '',
+            url: '',
+            location: ''
           }
         }
       },
@@ -246,8 +270,18 @@ var app = (function () {
       });
 
       api.getVenue(marker.pos).then(function (results) {
+        var venue;
+        venue = _.find(results.venues, function (venue) {
+          return venue.name === marker.description.head;
+        });
+        if (venue) {
+          marker.description.head = venue.name;
+          marker.description.hasWeb = venue.url ? true : false;
+          marker.description.url = venue.url;
+          marker.description.location = venue.location.state + ' ' + venue.location.address + ' ' +  venue.location.country;
+        }
         markerInstance.infoWindow = new google.maps.InfoWindow({
-          content: template(marker.description || results.response)
+          content: template(marker.description)
         });
       }).fail(function (e) {
         window.alert('An unespected error happened, please try again later');

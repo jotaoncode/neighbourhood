@@ -71,7 +71,7 @@ var credentials = 'client_secret=' + foursquare.secret + '&client_id=' + foursqu
  */
 app.get('/foursquare/venues', function (req, res) {
   var route;
-  route = foursquare.url + '/v2/venues/search?' + req.query.positions + '&limit=1&' + credentials;
+  route = foursquare.url + '/v2/venues/search?' + req.query.positions + '&limit=10&' + credentials;
   var request = https.get(route, function (response) {
     response.setEncoding('utf8');
     response.on('data', function (d) {
