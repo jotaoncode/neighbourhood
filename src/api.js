@@ -1,14 +1,18 @@
 var api = {
   getVenue: function () {
     var data = {
-      positions: 'll=40.7,-74'
+      positions: 'll=-34.603760,-58.415243'
     };
     $.ajax({
       url: 'http://localhost:3000/foursquare/venues',
       type: 'GET',
       data: data,
-    }).then(function () {
-      console.log('finished: ', arguments);
+      success: function (results) {
+        console.log(results);
+      },
+      error: function () {
+        console.log(arguments);
+      }
     });
   },
   getTip: function () {
@@ -18,9 +22,14 @@ var api = {
     $.ajax({
       url: 'http://localhost:3000/foursquare/tip',
       type: 'GET',
+      dataType: 'json',
       data: data,
-    }).then(function () {
-      console.log('finished: ', arguments);
+      success: function (results) {
+        console.log(results);
+      },
+      error: function () {
+        console.log(arguments);
+      }
     });
   },
   getTips: function () {
@@ -30,9 +39,14 @@ var api = {
     $.ajax({
       url: 'http://localhost:3000/foursquare/tips',
       method: 'GET',
+      dataType: 'json',
       data: data,
-    }).then(function () {
-      console.log('finished: ', arguments);
+      success: function (results) {
+        console.log(results);
+      },
+      error: function () {
+        console.log(arguments);
+      }
     });
   }
 };
