@@ -83,7 +83,6 @@ app.get('/foursquare/venues', function (req, res) {
   request.on('error', function (e) {
     res.write(e);
     res.end();
-    console.log(e);
   });
   request.end();
 });
@@ -104,7 +103,6 @@ app.get('/foursquare/tips', function (req, res) {
   request.on('error', function (e) {
     res.write(e);
     res.end();
-    console.log(e);
   });
   request.end();
 });
@@ -124,7 +122,6 @@ app.get('/foursquare/tip', function (req, res) {
   request.on('error', function (e) {
     res.write(e);
     res.end();
-    console.log(e);
   });
   request.end();
 });
