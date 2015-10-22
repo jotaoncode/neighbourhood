@@ -234,7 +234,8 @@ var app = (function () {
       filterList.isMenuVisible(!panorama.getVisible());
     });
     _.each(listModel.markersDefinition, function (marker) {
-      var markerInstance = new google.maps.Marker({
+      var markerDescription,
+      markerInstance = new google.maps.Marker({
         map: map,
         streetViewControl: true,
         position: marker.pos,
@@ -242,8 +243,10 @@ var app = (function () {
         title: marker.title
       });
 
-      markerInstance.infoWindow = new google.maps.InfoWindow({
-        content: template(marker.description)
+      api.getVenue(marker.pos).then(function (results) {
+        markerInstance.infoWindow = new google.maps.InfoWindow({
+          content: template(marker.description || results.response)
+        });
       });
       markerInstance.isVisible = ko.observable(markerInstance.visible);
       markerInstance.addListener('click', function () {
@@ -258,5 +261,4 @@ var app = (function () {
     initMap: initMap
   };
 }());
-
 

@@ -1,52 +1,34 @@
 var api = {
-  getVenue: function () {
+  getVenue: function (pos, markerInstance) {
     var data = {
-      positions: 'll=-34.603760,-58.415243'
+      positions: 'll=' + pos.lat + ',' + pos.lng
     };
-    $.ajax({
+    return $.ajax({
       url: 'http://localhost:3000/foursquare/venues',
       type: 'GET',
-      data: data,
-      success: function (results) {
-        console.log(results);
-      },
-      error: function () {
-        console.log(arguments);
-      }
+      data: data
     });
   },
   getTip: function () {
     var data = {
       tip_id: '4eaf024f9a521bacdb216401'
     };
-    $.ajax({
+    return $.ajax({
       url: 'http://localhost:3000/foursquare/tip',
       type: 'GET',
       dataType: 'json',
-      data: data,
-      success: function (results) {
-        console.log(results);
-      },
-      error: function () {
-        console.log(arguments);
-      }
+      data: data
     });
   },
   getTips: function () {
     var data = {
       venue_id: '430d0a00f964a5203e271fe3'
     };
-    $.ajax({
+    return $.ajax({
       url: 'http://localhost:3000/foursquare/tips',
       method: 'GET',
       dataType: 'json',
-      data: data,
-      success: function (results) {
-        console.log(results);
-      },
-      error: function () {
-        console.log(arguments);
-      }
+      data: data
     });
   }
 };
