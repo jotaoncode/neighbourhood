@@ -158,7 +158,9 @@ var app = (function () {
           failList;
 
       _.each(listModel.markersInstance, function (marker) {
-        marker.infoWindow.close();
+        if (marker.infoWindow) {
+          marker.infoWindow.close();
+        }
       });
 
       if (criteria === "") {
@@ -247,7 +249,7 @@ var app = (function () {
         markerInstance.infoWindow = new google.maps.InfoWindow({
           content: template(marker.description || results.response)
         });
-      }).catch(function (e) {
+      }).fail(function (e) {
         window.alert('An unespected error happened, please try again later');
         console.error(e);
       });
