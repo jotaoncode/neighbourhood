@@ -10,7 +10,6 @@
     "jquery": "~2.1.4",
     "doxx": "~2.1.1",
     "knockout": "~3.3.0",
-    "selectize": "~0.12.1",
     "underscore": "~1.8.3",
     "materialize-css": "~0.97.1",
     "material-design-icons": "~2.0.0",
