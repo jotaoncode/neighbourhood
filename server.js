@@ -7,31 +7,11 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   https = require('https'),
   path = require('path'),
+  config = require('config'),
   routing = require('./routing'),
   session = require('express-session'),
-  Grant = require('grant-express'),
   app = module.exports = express(),
-  grant,
   resources = path.join(__dirname, './');
-
-/**
- * Configuration
- */
-grant = new Grant({
-  "server": {
-    "protocol": "http",
-    "host": "localhost:3000",
-    "callback": "/callback",
-    "transport": "session",
-    "state": true
-  },
-  "foursquare": {
-    "key": "ODEENXKRFLRJ0T0X3XXFIIXD2G0CIDDF00GDQCEEB3BE52UE",
-    "secret": "H1XFXV3BQZHGCEVAGERYG0VPOVYOSM4JHOZBUTTZZNYLUVHM",
-    "scope": "[read]",
-    "callback": "/foursquare/callback"
-  }
-});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -41,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use(grant);
+
 
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', "*");
@@ -58,12 +38,7 @@ app.get('/', function (req, res) {
   routing(req, res, pathPage);
 });
 
-var foursquare =  {
-  url: 'https://api.foursquare.com/',
-  id: 'ODEENXKRFLRJ0T0X3XXFIIXD2G0CIDDF00GDQCEEB3BE52UE',
-  secret: 'H1XFXV3BQZHGCEVAGERYG0VPOVYOSM4JHOZBUTTZZNYLUVHM',
-  v: '20151019',
-};
+var foursquare =  config.foursquare;
 var credentials = 'client_secret=' + foursquare.secret + '&client_id=' + foursquare.id + '&v=' + foursquare.v;
 
 /**
